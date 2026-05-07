@@ -67,19 +67,26 @@ Login:
 
 ---
 
-## Deploy Railway
+## Deploy Provedor Cloud Railway
 
-### 1) Suba esse projeto para GitHub (ou faça upload zip)
-### 2) Crie um projeto no Railway
-### 3) Adicione PostgreSQL (Plugin)
+### 0) Crie um service DATABASE PostGres
+### 1) Suba esse projeto para GitHub
+### 2) Crie um projeto no Railway integrado com o projeto appagenda do GitHub
+### 3) Copie a string de conexão do BD PostGres connect/public network copiar connection URL
 ### 4) Configure variáveis
-Railway já cria `DATABASE_URL`. Configure:
-- SECRET_KEY=alguma_chave_segura
-
-### 5) Deploy
+Railway já cria `DATABASE_URL`. Configure: colar do connection URL
+- SECRET_KEY=alguma_chave_segura  , escolha uma
+### 5) Settings
+       Opção Deploy em Custom Start Command, inclua:
+       flask db upgrade && python seed_admin.py && gunicorn --bind 0.0.0.0:$PORT run:app
+### 6) Deploy
 Railway detecta Flask + Procfile e inicia com Gunicorn.
+### 7) Settings
+    Opção Networking 
+    Public Networking, clicar em criar DOMAIN, será criado algo do tipo:
+    https://appagendapy-production.up.railway.app
 
-### 6) Rodar migrations no Railway
+### NÃO RODAR 8) Rodar migrations no Railway, somente conta PAGA
 Use o console do Railway e rode:
 ```bash
 flask db upgrade
@@ -93,3 +100,6 @@ python seed_admin.py
 - /logout
 - /agenda/listar
 - /agenda/novo
+
+## Rodar App no Browser
+Ex.: https://appagendapy-production.up.railway.app
